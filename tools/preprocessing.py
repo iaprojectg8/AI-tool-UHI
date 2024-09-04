@@ -108,7 +108,7 @@ def convert_all_dbf_in_a_folder():
         None
     """
     dbf_folder = DBF_FOLDER
-    ouput_folder =  CLEANED_DIR
+    ouput_folder =  CSV_INPUT_FOLDER
     print("Processing the cleaning and convertion of DBF file into CSV")
     for filename in  os.listdir(dbf_folder):
         print(f"Cleaning dbf file {filename}")
@@ -179,21 +179,7 @@ def drop_LS7(df:pd.DataFrame):
         df = df.drop("LS7",axis=1)
     return df
 
-def clean_and_relocate():
-    """
-    Cleans and relocates data files from the DATA_DIR to the CLEANED_DIR. Removes the 'LS7' column if it exists
-    and cleans the data using the clean_data function.
-    """
-    if CLEANED_DIR not in os.listdir():
-        os.makedirs(CLEANED_DIR)
-    for city in os.listdir(DATA_DIR):
-        df = pd.read_csv(os.path.join(DATA_DIR,city),na_values={"EXP":"-nan(ind)"})
-        if "LS7" in df.columns:
-            df = df.drop("LS7",axis=1)
-        df = clean_data(df)
-        new_path = os.path.join(CLEANED_DIR,city)
-        df.to_csv(new_path,index=False)
-        print(city,"done")
+
 
 def take_right_parameters(df,params_to_take=[],params_to_drop=[]):
     """
@@ -272,7 +258,7 @@ def create_empty_dataframe(city_list):
         df_test (DataFrame): Empty DataFrame for testing data.
         df_val (DataFrame): Empty DataFrame for validation data.
     """
-    example = os.path.join(CLEANED_DIR,city_list[0])
+    example = os.path.join(CSV_INPUT_FOLDER,city_list[0])
     df =  pd.read_csv(example)
     df = clean_data(df)
     header = df.columns.tolist()
@@ -291,7 +277,7 @@ def open_and_clean_df(city):
     Returns:
         df_cleaned (DataFrame): Cleaned DataFrame for the city.
     """
-    data_csv_file = os.path.join(CLEANED_DIR,city)
+    data_csv_file = os.path.join(CSV_INPUT_FOLDER,city)
     df_file = pd.read_csv(data_csv_file) # The na_values is for the EXP columns that contains those weird values
     df_cleaned = clean_data(df_file)
 
@@ -718,7 +704,7 @@ def create_df_test(city_list,classif, step):
 
     for city in tqdm(city_list):
 
-        data_csv_file = os.path.join(CLEANED_DIR,city)
+        data_csv_file = os.path.join(CSV_INPUT_FOLDER,city)
         df = pd.read_csv(data_csv_file) # The na_values is for the EXP columns that contains those weird values
         df = clean_data(df)
         if classif:
@@ -731,7 +717,7 @@ def preoprocess_test_data(city_list):
 
     for city in tqdm(city_list):
 
-        data_csv_file = os.path.join(CLEANED_DIR,city)
+        data_csv_file = os.path.join(CSV_INPUT_FOLDER,city)
         df = pd.read_csv(data_csv_file) # The na_values is for the EXP columns that contains those weird values
         df = df[df["layer"]=="Calculé"]
         df["URB"]=1

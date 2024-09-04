@@ -238,20 +238,19 @@ class NNClassificationModel(BaseModel):
         return model
 
 
-def train(step=None):
+def train(params_list, step=None):
 
-    if  step is None:
+    if  step is None or step==0:
         classif = 0
     else: 
         classif = 1
     # City parameters initialization    
-    city_list = os.listdir(CLEANED_DIR)
+    city_list = os.listdir(CSV_INPUT_FOLDER)
     city_list = ["Bamako.csv"]
     str_city = create_city_str(city_files=city_list)
     train_city_list=[]
-    params_to_take=[]
-    params_to_drop=[]
-    params_list = params_to_take, params_to_drop
+    
+    params_to_take, params_to_drop = params_list
     str_drop_params = create_str_for_drop_parameters(params_to_drop=params_to_drop)
     temps_to_classes, classes_to_temps = dict(), dict()
     
@@ -394,7 +393,7 @@ def train(step=None):
     # neural_net_importance(model,X_train,X_test)
     visualization(classif=classif, classes_to_temps=classes_to_temps,test_inputs=test_inputs,wandb_title="Results of the model predictions", model=model)
 
-def test(step=None):
+def test(params_list,step=None):
 
     if  step is None:
         classif = 0
@@ -403,9 +402,8 @@ def test(step=None):
 
     test_city_list = ["Bamako.csv"]
     str_city = create_city_str(city_files=test_city_list)
-    params_to_take=[]
-    params_to_drop=[]
-    params_list = params_to_take, params_to_drop
+    
+    params_to_take, params_to_drop = params_list 
     str_drop_params = create_str_for_drop_parameters(params_to_drop=params_to_drop)
     temps_to_classes, classes_to_temps = dict(), dict()
     

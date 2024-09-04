@@ -9,8 +9,7 @@ FILENAME_RDF = "bamako_lat_lon_03.joblib"
 FILENAME_NN = 'temperature_prediction_model_yaounde_eq.keras'
 MODEL_NN_PATH = MODELS_FOLDER + FILENAME_NN
 MODEL_PATH = MODELS_FOLDER + FILENAME_RDF
-CLEANED_DIR = "new_cleaned_files"
-DATA_DIR = "new_input_file"
+
 
 
 # Model path variables

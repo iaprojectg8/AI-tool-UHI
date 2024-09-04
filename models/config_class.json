@@ -41,6 +41,6 @@
     "early_stopping_patience": 25,
     "reduce_lr_factor": 0.2,
     "reduce_lr_patience": 7,
-    "softmax_classes": 226,
+    "softmax_classes": 249,
     "classif_step": 0.1
 }
