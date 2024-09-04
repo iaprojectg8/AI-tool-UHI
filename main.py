@@ -7,11 +7,13 @@ from tools.nn_models import *
 
 
 def main():
-    params_to_take = ["LAT", "LON"]
+
+    # No need to enter anything if we want to take all the variables
+    params_to_take = []
     params_to_drop = []
     params_list = [params_to_take, params_to_drop]
     df = init_df_all_variable()
-    rdf_regressor(df,parameters_list=params_list)
+    rdf_regressor(df,parameters_list=params_list, estimator=50)
  
 
     

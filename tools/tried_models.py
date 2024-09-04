@@ -33,14 +33,16 @@ def main_pca():
 
 def linear_regression(df, parameters_list):
 
-    # y will always be the same because this is the variable we want to predict
+    # Create X and y for the train
     X,y = create_X_y(df, parameters_list)    
-    scaler = StandardScaler()
 
-    # Fit the scaler to your data and transform the data
-    X = scaler.fit_transform(X)
     # Split the train and test dataset
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2 , random_state=42,)
+    scaler = StandardScaler()
+
+    # Fit the scaler to the data
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
     
 
     # Model init and train
@@ -254,7 +256,6 @@ def lst_vs(df):
     plt.show()
 
 
-
 def Knn_regressor(df):
 
     # Data preprocessing
@@ -270,26 +271,25 @@ def Knn_regressor(df):
     basic_visualization(X_test=X_test, y_test=y_test,model=knn_model)
 
 
-def rdf_regressor(df,parameters_list, force = False):
+def rdf_regressor(df,parameters_list, estimator, force = False):
 
 
     X,y = create_X_y(df, parameters_list) 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2 , random_state=42)
 
-    # # Load or create the model and save it
-    # if FILENAME_RDF in os.listdir(MODELS_FOLDER) and not force:
-    #     print("Loading the model...")
-    #     rf_model = load(MODEL_PATH)
-    # else:
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2 , random_state=42)
+    scaler = StandardScaler()
+
+    # Fit the scaler to your data and transform the data
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+
     print("Training the model")
-    rf_model = RandomForestRegressor(n_estimators=25, random_state=42,n_jobs=-1,verbose=1)
+    rf_model = RandomForestRegressor(n_estimators=estimator, random_state=42,n_jobs=-1,verbose=1)
     rf_model.fit(X_train, y_train)
     
     # importance_vis(X_test=X_test, y_test=y_test, model=rf_model)
     basic_visualization(X_test=X_test, y_test=y_test, model = rf_model)
-    # Save the model to a file
-    # print("Saving the model...")
-    # dump(rf_model, MODEL_PATH)
+
 
 
 def adjusted_r2_calc(r2, X_test):
