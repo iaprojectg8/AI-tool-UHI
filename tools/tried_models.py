@@ -1,9 +1,35 @@
 
 from utils.imports import *
-from tools.preprocessing import create_X_y, clean_data
+from tools.preprocessing import create_X_y, clean_data, init_df_all_variable
 from utils.variables_path import *
 from tools.visualization import basic_visualization, importance_vis
 
+
+
+def main_pca():
+    params_to_take = []
+    params_to_drop = ["LS2", "LS3", "LS5", "LS6", "ALB", "OCCSOL", "URB"]
+    params_pca1 = ["LS2", "LS3", "LS5", "LS6", "ALB"]
+    params_pca2 = ["OCCSOL", "URB"]
+    params_list = [params_to_take, params_to_drop]
+    
+    df = init_df_all_variable()
+    
+    # Data prep for pca on correlated variables
+    df_pca1 = df[params_pca1]
+    df_pca2 = df[params_pca2]
+
+    # Applying the PCA process
+    pca1_components = pca_process(df_pca1, display=False)
+    pca2_components = pca_process(df_pca2, display=False)
+    
+    # Adding the PCA main component to the dataframe
+    pca1_df = pd.DataFrame(pca1_components.T, columns=[f'PC{i+1}' for i in range(pca1_components.shape[0])])
+    pca2_df = pd.DataFrame(pca2_components.T, columns=[f'PC{i+1}' for i in range(pca2_components.shape[0])])
+    df = pd.concat([df, pca1_df, pca2_df], axis=1)
+
+    # Making the linear regression
+    linear_regression(df=df, parameters_list=params_list)
 
 def linear_regression(df, parameters_list):
 
@@ -263,7 +289,7 @@ def rdf_regressor(df,parameters_list, force = False):
     basic_visualization(X_test=X_test, y_test=y_test, model = rf_model)
     # Save the model to a file
     # print("Saving the model...")
-    dump(rf_model, MODEL_PATH)
+    # dump(rf_model, MODEL_PATH)
 
 
 def adjusted_r2_calc(r2, X_test):
