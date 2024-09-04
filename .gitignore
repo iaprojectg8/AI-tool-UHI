@@ -1,0 +1,18 @@
+# Folders
+tempenv/
+temp/
+word docs/
+wandb/
+stats/
+graphs/
+cleaned_csv/
+csv_input_data/
+new_input_file/
+new_cleaned_files/
+SHAP experiments/
+
+
+# File
+archi.png
+explainer_output
+photo.png

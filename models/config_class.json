@@ -1,0 +1,46 @@
+{
+    "dense_1": 150,
+    "dense_2": 256,
+    "dense_3": 150,
+    "dense_4": 64,
+    "dense_5": 32,
+    "epochs": 250,
+    "batch_size": 512,
+    "loss": "sparse_categorical_crossentropy",
+    "optimizer": {
+        "module": "keras.optimizers",
+        "class_name": "Nadam",
+        "config": {
+            "name": "nadam",
+            "learning_rate": 0.009999999776482582,
+            "weight_decay": 0.0004,
+            "clipnorm": null,
+            "global_clipnorm": null,
+            "clipvalue": null,
+            "use_ema": false,
+            "ema_momentum": 0.99,
+            "ema_overwrite_frequency": null,
+            "loss_scale_factor": null,
+            "gradient_accumulation_steps": null,
+            "beta_1": 0.9,
+            "beta_2": 0.999,
+            "epsilon": 1e-07
+        },
+        "registered_name": null
+    },
+    "metrics": [
+        "accuracy"
+    ],
+    "monitor": "val_loss",
+    "frac_urb_train": 0.8,
+    "initial_lr": 0.01,
+    "min_lr": 1e-09,
+    "weight_decay": 0.0004,
+    "dropout": 0.1,
+    "alpha_elu": 1.0,
+    "early_stopping_patience": 25,
+    "reduce_lr_factor": 0.2,
+    "reduce_lr_patience": 7,
+    "softmax_classes": 226,
+    "classif_step": 0.1
+}
