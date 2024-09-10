@@ -2,7 +2,16 @@ from utils.imports import *
 from tools.preprocessing import *
 
 def rdf_grid_search(X_train,y_train):
-    
+    """
+    Performs grid search on rdf model in order to optimize it.
+
+    Parameters:
+        X_train (pd.DataFrame): The dataframe containing the variables
+        y_train (pd.DataFrame): The dataframe containing the target variable
+
+    Returns:
+        results : Returns the results as a dictionary
+    """
     
     rf_regressor = RandomForestRegressor()
 
@@ -32,14 +41,3 @@ def rdf_grid_search(X_train,y_train):
 
     return results
 
-
-
-def main():
-
-    df = init_df_all_variable()
-    param_list = ["LAT","LON","OCCSOL"]
-    urb_frac = 0.1
-    X_train, X_test, y_train, y_test = separate_on_urb_and_city(df,parameters_list=param_list,urb_frac=urb_frac)
-    grid_search_result = rdf_grid_search(X_train,y_train)
-    
-    print(grid_search_result)

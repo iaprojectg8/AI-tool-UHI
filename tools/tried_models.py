@@ -7,6 +7,21 @@ from tools.visualization import basic_visualization, importance_vis
 
 
 def main_pca():
+    """
+    Performs Principal Component Analysis (PCA) on specific subsets of a dataset and then applies linear 
+    regression using the transformed features.
+
+    The function initializes a dataframe, selects subsets of correlated variables for PCA, and adds 
+    the main components back into the dataset. It then performs a linear regression using the updated dataframe.
+
+    Parameters:
+        None
+
+    Returns:
+        None. This function modifies the dataframe by adding PCA components and applies linear regression on the 
+        resulting dataset.
+    """
+
     params_to_take = []
     params_to_drop = ["LS2", "LS3", "LS5", "LS6", "ALB", "OCCSOL", "URB"]
     params_pca1 = ["LS2", "LS3", "LS5", "LS6", "ALB"]
@@ -32,6 +47,16 @@ def main_pca():
     linear_regression(df=df, parameters_list=params_list)
 
 def linear_regression(df, parameters_list):
+    """
+    Performs linear regression on the provided dataset.
+
+    Parameters:
+        df (pd.DataFrame): The dataframe containing the dataset to be used for linear regression.
+        parameters_list (list): A list containing the parameters to include and exclude in the model.
+
+    Returns:
+        None. The function outputs visualizations of the results after applying linear regression.
+    """
 
     # Create X and y for the train
     X,y = create_X_y(df, parameters_list)    
@@ -56,6 +81,16 @@ def linear_regression(df, parameters_list):
 
 
 def all_combination_regression(df, result_file):
+    """
+    Performs linear regression with all the possible variable combination.
+
+    Parameters:
+        df (pd.DataFrame): The dataframe containing the dataset to be used for linear regression.
+        result_file (string): A string containing the name of the file to write
+
+    Returns:
+        None. The function outputs visualizations of the results after applying linear regression.
+    """
 
     df = clean_data(df)
     all_variables = df.columns.tolist()
@@ -95,6 +130,15 @@ def all_combination_regression(df, result_file):
 
 
 def random_comparison(df):
+    """
+    Computes graph to compare a linear regression model to model that always predict the mean of the dataset
+
+    Parameters:
+        df (pd.DataFrame): The dataframe containing the dataset to be used for linear regression.
+
+    Returns:
+        None. It outputs graphs that allow to compare the performance between the model and mean prediction.
+    """
 
     # y will always be the same because this is the variable we want to predict
     X,y = create_X_y(df)
@@ -149,6 +193,17 @@ def random_comparison(df):
 
 
 def pca_process(X,display=False):
+
+    """
+    PCA process on the correlated variables
+
+    Parameters:
+        X : The dataframe containing the variables
+        display : A boolean that is changeable by the user to display the principal components graph
+
+    Returns:
+        resulting_components (array): The function is returning an array of all the components
+    """
 
     # Apply the PCA to the variable distribution
     pca = PCA()
@@ -223,6 +278,15 @@ def pca_process(X,display=False):
     
 
 def lst_vs(df):
+    """
+    Performs linear regression between each variable and the LST
+
+    Parameters:
+        df (pd.DataFrame): The dataframe containing the dataset to be used for linear regression.
+
+    Returns:
+        None. The function shows all the regression graph between variables and LST
+    """
 
     # Preprocess the data
     X = df.drop("LST",axis=1)
@@ -257,6 +321,16 @@ def lst_vs(df):
 
 
 def Knn_regressor(df):
+    """
+    Performs KNN regression on the provided dataset.
+
+    Parameters:
+        df (pd.DataFrame): The dataframe containing the dataset to be used for KNN regression.
+        
+
+    Returns:
+        None. The function outputs visualizations of the results after applying KNN regression.
+    """
 
     # Data preprocessing
     X = df.drop("LST",axis=1)
@@ -271,9 +345,18 @@ def Knn_regressor(df):
     basic_visualization(X_test=X_test, y_test=y_test,model=knn_model)
 
 
-def rdf_regressor(df,parameters_list, estimator, force = False):
+def rdf_regressor(df,parameters_list, estimator):
+    """
+    Performs a random forest regression.
 
+    Parameters:
+        df (pd.DataFrame): The dataframe containing the dataset to be used for rdf regression.
+        parameters_list (list): A list containing the parameters to include and exclude in the model.
+        estimator (int) : An integer that corresponds to the amount of estimators wanted for the forest
 
+    Returns:
+        None. The function outputs visualizations of the results after applying rdf regression.
+    """
     X,y = create_X_y(df, parameters_list) 
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2 , random_state=42)
@@ -293,6 +376,16 @@ def rdf_regressor(df,parameters_list, estimator, force = False):
 
 
 def adjusted_r2_calc(r2, X_test):
+    """
+    Calculate adjusted r2 knowing the r2 and X_test.
+
+    Parameters:
+        r2 (float): The r2 computed before
+        X_test (pd.Dataframe): X_test is just here to give its dimension for the calculation 
+
+    Returns:
+        adjusted_r2 (float) : Output the results of adjusted R2 calculation.
+    """
     n,k = X_test.shape
     print(k)
     print(n)

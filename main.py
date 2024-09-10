@@ -7,6 +7,7 @@ from tools.nn_models import *
 
 
 def main():
+    # This part is never fix because it depends what kind of training we want to do
 
     params_to_take = ["LAT", "LON"]
     params_to_drop = []

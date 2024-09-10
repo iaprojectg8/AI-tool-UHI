@@ -240,6 +240,24 @@ class NNClassificationModel(BaseModel):
 
 def train(params_list, step=None):
 
+    """
+    Trains a neural network model for temperature prediction, either for classification or regression tasks, 
+    depending on the step parameter. This function sets up the model, prepares the data, configures the training 
+    process, and manages the training using parameters provided in the input.
+
+    Parameters:
+        params_list (tuple): A tuple containing two elements:
+            - params_to_take (list): The parameters to keep from the dataset.
+            - params_to_drop (list): The parameters to remove from the dataset.
+        step (int, optional): The step number indicating the type of training. 
+            If None or 0, the task is a regression, otherwise it performs classification. Default is None.
+        
+    Returns:
+        None. This function trains the model and logs the results to WandB. 
+        The model and its history are saved, and visualizations of the results are generated.
+
+    """
+
     if  step is None or step==0:
         classif = 0
     else: 
@@ -394,6 +412,22 @@ def train(params_list, step=None):
     visualization(classif=classif, classes_to_temps=classes_to_temps,test_inputs=test_inputs,wandb_title="Results of the model predictions", model=model)
 
 def test(params_list,step=None):
+    """
+    Tests a neural network model for temperature prediction using pre-trained weights, for either classification 
+    or regression tasks. This function loads the test dataset, applies the trained model, and visualizes 
+    the results.
+
+    Parameters:
+        params_list (tuple): A tuple containing two elements:
+            - params_to_take (list): The parameters to keep from the dataset.
+            - params_to_drop (list): The parameters to remove from the dataset.
+        step (int, optional): The step number indicating the type of testing. 
+            If None, the task is regression, otherwise classification is performed. Default is None.
+
+    Returns:
+        None. This function tests the model using a test dataset, logs the results to WandB, and generates 
+        visualizations of the model’s performance.
+    """
 
     if  step is None:
         classif = 0
